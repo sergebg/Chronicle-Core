@@ -28,8 +28,10 @@ import java.util.List;
  * A resource which is reference counted and freed when the refCount drop to 0.
  */
 public interface ReferenceCounted {
+    
     static void releaseAll(@NotNull List<WeakReference<ReferenceCounted>> refCounts) {
-        for (@Nullable WeakReference<? extends ReferenceCounted> refCountRef : refCounts) {
+        for (int i = 0; i < refCounts.size(); i++) {
+            @Nullable WeakReference<? extends ReferenceCounted> refCountRef = refCounts.get(i);
             if (refCountRef == null)
                 continue;
             @Nullable ReferenceCounted refCounted = refCountRef.get();
